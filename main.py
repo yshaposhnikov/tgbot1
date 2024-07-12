@@ -84,7 +84,7 @@ def scenario1():
     if not(locate_image_on_screen('clickbeeisopen.png')):
         click_on_image('clickbee.png')
     if locate_image_on_screen('congratulations.png'):
-        pygame.mixer.music.load('beep.wav')
+        #pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
     #else:
         #click_on_image('skip.png')
@@ -129,7 +129,7 @@ def scenario2():
     click_on_image('joined.png')
     time.sleep(1)
     if locate_image_on_screen('congratulations.png'):
-        pygame.mixer.music.load('beep.wav')
+        #pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
 
 
@@ -243,7 +243,6 @@ def scenario3():
 
         return
     if locate_image_on_screen('congratulations.png'):
-        pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
         time.sleep(1)
 
@@ -279,6 +278,7 @@ def main():
     listener = keyboard.Listener(on_press=on_press)
     listener.start()
     print("Нажмите Caps Lock, чтобы начать/остановить выполнение сценариев.")
+    pygame.mixer.music.load('beep.wav')
 
     while True:
         if active:
