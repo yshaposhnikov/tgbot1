@@ -6,6 +6,7 @@ from PIL import ImageGrab
 from pynput import keyboard
 import pygame
 
+
 # Флаг для отслеживания состояния
 active = False
 
@@ -26,7 +27,7 @@ def locate_image_on_screen(template_path):
 
     # Поиск шаблона на экране
     res = cv2.matchTemplate(screenshot_gray, template, cv2.TM_CCOEFF_NORMED)
-    threshold = 0.88
+    threshold = 0.93
 
     loc = np.where(res >= threshold)
     for pt in zip(*loc[::-1]):
@@ -88,7 +89,8 @@ def scenario1():
         pygame.mixer.music.play()
     #else:
         #click_on_image('skip.png')
-
+    if locate_image_on_screen('back.png'):
+        click_on_image('back.png')
 
 def scenario2():
     # Добавьте реализацию второго сценария здесь
@@ -111,6 +113,16 @@ def scenario2():
     if locate_image_on_screen('jointhechannel.png'):
         click_on_image('jointhechannel.png')
     time.sleep(1)
+    if locate_image_on_screen('isexpired.png'):
+        click_on_image('ok.png')
+        time.sleep(1)
+        click_on_image('skip.png')
+        return
+    if locate_image_on_screen('requesttojoin.png'):
+        click_on_image('requesttojoin.png')
+        time.sleep(1)
+        click_on_image('joined.png')
+        return
     if locate_image_on_screen('joinchannel.png'):
         click_on_image('joinchannel.png')
     if locate_image_on_screen('alreadyjoined.png'):
@@ -196,7 +208,7 @@ def scenario3():
     location2 = locate_image_on_screen('botrespond2.png')
     if location:
         x, y = location
-        pyautogui.click(x + 50, y + 10, button='right')
+        pyautogui.click(x + 50, y, button='right')
         time.sleep(1)
         click_on_image('forward.png')
         time.sleep(1)
@@ -211,7 +223,7 @@ def scenario3():
         click_on_image('clickbee.png')
         time.sleep(1)
         click_on_image('skip.png')
-        time.sleep(1)
+        time.sleep(2)
         if locate_image_on_screen('skipohno.png'):
             click_on_image('back.png')
             backwait = locate_image_on_screen('backwait.png')
@@ -257,6 +269,11 @@ def scenario4():
         click_on_image('back.png')
         return
     else:
+        while(True):
+            pygame.mixer.music.load('beep.wav')
+            pygame.mixer.music.play()
+            time.sleep(1)
+
         time.sleep(10)
         click_on_image('watched.png')
         time.sleep(1)
@@ -270,14 +287,14 @@ def scenario4():
         time.sleep(1)
 def on_press(key):
     global active
-    if key == keyboard.Key.caps_lock:
+    if key == keyboard.Key.space:
         active = not active
         print(f"{'Начало' if active else 'Остановка'} выполнения сценариев.")
 
 def main():
     listener = keyboard.Listener(on_press=on_press)
     listener.start()
-    print("Нажмите Caps Lock, чтобы начать/остановить выполнение сценариев.")
+    print("Нажмите ПРОБЕЛ, чтобы начать/остановить выполнение сценариев.")
     pygame.mixer.music.load('beep.wav')
 
     while True:
