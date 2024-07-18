@@ -1,3 +1,4 @@
+#1807
 import cv2
 import numpy as np
 import pyautogui
@@ -44,9 +45,10 @@ def click_on_image(image_path):
 def scenario1():
     time.sleep(1)
     click_on_image('visitsites.png')
+    time.sleep(1)
     visitsiteswait = locate_image_on_screen('visitsiteswait.png')
     while visitsiteswait:
-        time.sleep(0.4)
+        time.sleep(0.2)
         visitsiteswait = locate_image_on_screen('visitsiteswait.png')
     if locate_image_on_screen('ohnosites.png'):
         click_on_image('back.png')
@@ -56,10 +58,11 @@ def scenario1():
             backwait = locate_image_on_screen('backwait.png')
         print("переход к следующему сценарию.")
         return
+    time.sleep(3)
     click_on_image('gotosite.png')
     time.sleep(1)
     click_on_image('open.png')
-    time.sleep(2)
+    time.sleep(3)
     if locate_image_on_screen('stay30sec.png'):
         time.sleep(33)
     if locate_image_on_screen('stay60sec.png'):
@@ -85,18 +88,18 @@ def scenario1():
     if not(locate_image_on_screen('clickbeeisopen.png')):
         click_on_image('clickbee.png')
     if locate_image_on_screen('congratulations.png'):
-        #pygame.mixer.music.load('beep.wav')
+        pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
     #else:
         #click_on_image('skip.png')
-    if locate_image_on_screen('back.png'):
+    if locate_image_on_screen('ohnosites.png'):
         click_on_image('back.png')
 
 def scenario2():
     # Добавьте реализацию второго сценария здесь
     time.sleep(1)
     click_on_image('joinchannels.png')
-    time.sleep(1)
+    time.sleep(2)
     joinchannelswait = locate_image_on_screen('joinchannelswait.png')
     while joinchannelswait:
         time.sleep(0.2)
@@ -122,26 +125,24 @@ def scenario2():
         click_on_image('requesttojoin.png')
         time.sleep(1)
         click_on_image('joined.png')
-        return
     if locate_image_on_screen('joinchannel.png'):
         click_on_image('joinchannel.png')
     if locate_image_on_screen('alreadyjoined.png'):
         click_on_image('clickbee.png')
         time.sleep(1)
         click_on_image('joined.png')
-        return
     if locate_image_on_screen('joingroup.png'):
         click_on_image('joingroup.png')
-    time.sleep(1)
+    time.sleep(0.3)
     if locate_image_on_screen('mute.png'):
         click_on_image('mute.png')
-        time.sleep(1)
+        time.sleep(0.3)
     click_on_image('clickbee.png')
     time.sleep(1)
     click_on_image('joined.png')
     time.sleep(1)
     if locate_image_on_screen('congratulations.png'):
-        #pygame.mixer.music.load('beep.wav')
+        pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
 
 
@@ -170,7 +171,7 @@ def scenario3():
     time.sleep(2)
     click_on_image('startthebot.png')
     time.sleep(1)
-    if locate_image_on_screen('joinchannel.png'):
+    if locate_image_on_screen('joinchannel.png') or locate_image_on_screen('videochat.png'):
         click_on_image('clickbee.png')
         time.sleep(1)
         click_on_image('skip.png')
@@ -191,21 +192,14 @@ def scenario3():
         click_on_image('ok.png')
         time.sleep(1)
         click_on_image('3dots.png')
+        click_on_image('3dots2.png')
         time.sleep(1)
         click_on_image('openbot.png')
         time.sleep(1)
-    if locate_image_on_screen('start.png'):
-        click_on_image('start.png')
-        time.sleep(5)
-    if locate_image_on_screen('youallowed.png'):
-        click_on_image('writeamessage.png')
-        pyautogui.typewrite('/start')
-        time.sleep(0.5)  # Небольшая пауза перед нажатием Enter
-        pyautogui.press('enter')
-        time.sleep(5)
 
+    time.sleep(1)
     location = locate_image_on_screen('botrespond.png')
-    location2 = locate_image_on_screen('botrespond2.png')
+    location3 = locate_image_on_screen('botrespond3.png')
     if location:
         x, y = location
         pyautogui.click(x + 50, y, button='right')
@@ -215,9 +209,29 @@ def scenario3():
         click_on_image('clickbee2.png')
         time.sleep(1)
         click_on_image('started.png')
+        time.sleep(2)
+        pyautogui.press('enter')
+    elif location3:
+        x, y = location3
+        pyautogui.click(x, y + 60, button='right')
+        time.sleep(1)
+        click_on_image('forward.png')
+        time.sleep(1)
+        click_on_image('clickbee2.png')
+        time.sleep(1)
+        click_on_image('started.png')
         time.sleep(1)
         pyautogui.press('enter')
 
+    if locate_image_on_screen('start.png'):
+        click_on_image('start.png')
+        time.sleep(5)
+    if locate_image_on_screen('youallowed.png'):
+        click_on_image('writeamessage.png')
+        pyautogui.typewrite('/start')
+        time.sleep(0.5)  # Небольшая пауза перед нажатием Enter
+        pyautogui.press('enter')
+        time.sleep(5)
 
     if locate_image_on_screen('norespond.png') or locate_image_on_screen('norespond2.png'):
         click_on_image('clickbee.png')
@@ -254,7 +268,10 @@ def scenario3():
             backwait = locate_image_on_screen('backwait.png')
 
         return
+    time.sleep(1)
+
     if locate_image_on_screen('congratulations.png'):
+        pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
         time.sleep(1)
 
@@ -270,7 +287,7 @@ def scenario4():
         return
     else:
         while(True):
-            pygame.mixer.music.load('beep.wav')
+            pygame.mixer.music.load('beep1.wav')
             pygame.mixer.music.play()
             time.sleep(1)
 
@@ -300,9 +317,9 @@ def main():
     while True:
         if active:
             #scenario4()
-            scenario2()
-            scenario3()
             scenario1()
+            scenario3()
+            scenario2()
             time.sleep(1)
         else:
             time.sleep(1)
