@@ -90,8 +90,10 @@ def scenario1():
     if locate_image_on_screen('congratulations.png'):
         pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
-    #else:
-        #click_on_image('skip.png')
+    else:
+        click_on_image('tgtray2.png')
+        time.sleep(1)
+        click_on_image('skip.png')
     if locate_image_on_screen('ohnosites.png'):
         click_on_image('back.png')
 
