@@ -80,6 +80,10 @@ def scenario1():
             click_on_image('closeanyway.png')
     if locate_image_on_screen('tgtray.png'):
         click_on_image('tgtray.png')
+    else:
+        click_on_image('tgtray2.png')
+        time.sleep(1)
+        click_on_image('skip.png')
     #else:
        # pyautogui.click(270, 1060, button='left')
         #click_on_image('skip.png')
@@ -90,10 +94,7 @@ def scenario1():
     if locate_image_on_screen('congratulations.png'):
         pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
-    else:
-        click_on_image('tgtray2.png')
-        time.sleep(1)
-        click_on_image('skip.png')
+
     if locate_image_on_screen('ohnosites.png'):
         click_on_image('back.png')
 
@@ -152,7 +153,8 @@ def scenario2():
 
 def scenario3():
     # Добавьте реализацию третьего сценария здесь
-
+    time.sleep(1)
+    click_on_image('back.png')
 
     time.sleep(1)
     click_on_image('joinbots.png')
@@ -211,7 +213,7 @@ def scenario3():
         click_on_image('clickbee2.png')
         time.sleep(1)
         click_on_image('started.png')
-        time.sleep(2)
+        time.sleep(3)
         pyautogui.press('enter')
     elif location3:
         x, y = location3
@@ -234,6 +236,31 @@ def scenario3():
         time.sleep(0.5)  # Небольшая пауза перед нажатием Enter
         pyautogui.press('enter')
         time.sleep(5)
+
+    location = locate_image_on_screen('botrespond.png')
+    location3 = locate_image_on_screen('botrespond3.png')
+    if location:
+        x, y = location
+        pyautogui.click(x + 50, y, button='right')
+        time.sleep(1)
+        click_on_image('forward.png')
+        time.sleep(1)
+        click_on_image('clickbee2.png')
+        time.sleep(1)
+        click_on_image('started.png')
+        time.sleep(2)
+        pyautogui.press('enter')
+    elif location3:
+        x, y = location3
+        pyautogui.click(x, y + 60, button='right')
+        time.sleep(1)
+        click_on_image('forward.png')
+        time.sleep(1)
+        click_on_image('clickbee2.png')
+        time.sleep(1)
+        click_on_image('started.png')
+        time.sleep(1)
+        pyautogui.press('enter')
 
     if locate_image_on_screen('norespond.png') or locate_image_on_screen('norespond2.png'):
         click_on_image('clickbee.png')
