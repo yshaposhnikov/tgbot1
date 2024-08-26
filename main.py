@@ -89,8 +89,12 @@ def scenario1():
         #click_on_image('skip.png')
     time.sleep(3)
 
-    if not(locate_image_on_screen('clickbeeisopen.png')):
+    while(not(locate_image_on_screen('clickbeeisopen.png'))):
+        click_on_image('tgtray2.png')
+        time.sleep(1)
         click_on_image('clickbee.png')
+        time.sleep(1)
+        click_on_image('back.png')
     if locate_image_on_screen('congratulations.png'):
         pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
@@ -196,7 +200,7 @@ def scenario3():
         click_on_image('ok.png')
         time.sleep(1)
         click_on_image('3dots.png')
-        click_on_image('3dots2.png')
+        #click_on_image('3dots2.png')
         time.sleep(1)
         click_on_image('openbot.png')
         time.sleep(1)
@@ -213,7 +217,7 @@ def scenario3():
         click_on_image('clickbee2.png')
         time.sleep(1)
         click_on_image('started.png')
-        time.sleep(3)
+        time.sleep(5)
         pyautogui.press('enter')
     elif location3:
         x, y = location3
@@ -229,10 +233,14 @@ def scenario3():
 
     if locate_image_on_screen('start.png'):
         click_on_image('start.png')
+        time.sleep(1)
+        click_on_image('start.png')
         time.sleep(5)
+
     if locate_image_on_screen('youallowed.png'):
         click_on_image('writeamessage.png')
-        pyautogui.typewrite('/start')
+        pyautogui.hotkey('ctrl', 'v')
+        #pyautogui.typewrite('/start')
         time.sleep(0.5)  # Небольшая пауза перед нажатием Enter
         pyautogui.press('enter')
         time.sleep(5)
@@ -281,7 +289,13 @@ def scenario3():
     #location = locate_image_on_screen('botrespond.png')
 
     #time.sleep(1)
-    click_on_image('forward.png')
+    if locate_image_on_screen('forward.png'):
+        click_on_image('forward.png')
+    else:
+        click_on_image('clickbee.png')
+        time.sleep(1)
+        click_on_image('skip.png')
+        return
     time.sleep(1)
     click_on_image('clickbee2.png')
     time.sleep(1)
@@ -315,12 +329,7 @@ def scenario4():
         click_on_image('back.png')
         return
     else:
-        while(True):
-            pygame.mixer.music.load('beep1.wav')
-            pygame.mixer.music.play()
-            time.sleep(1)
-
-        time.sleep(10)
+        time.sleep(11)
         click_on_image('watched.png')
         time.sleep(1)
         click_on_image('viewposts.png')
@@ -331,6 +340,7 @@ def scenario4():
             time.sleep(0.5)
             backwait = locate_image_on_screen('backwait.png')
         time.sleep(1)
+        scenario4()
 def on_press(key):
     global active
     if key == keyboard.Key.space:
@@ -345,7 +355,7 @@ def main():
 
     while True:
         if active:
-            #scenario4()
+            scenario4()
             scenario1()
             scenario3()
             scenario2()
