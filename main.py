@@ -1,5 +1,6 @@
 #1807
 import cv2
+import pyperclip
 import numpy as np
 import pyautogui
 import time
@@ -14,8 +15,8 @@ active = False
 
 
 pygame.mixer.init()
-
-
+text_to_copy = "/start"
+pyperclip.copy(text_to_copy)
 def locate_image_on_screen(template_path):
     # Снимок экрана
     screenshot = ImageGrab.grab()
@@ -44,6 +45,8 @@ def click_on_image(image_path):
 
 def scenario1():
     time.sleep(1)
+    click_on_image('back.png')
+    time.sleep(1)
     click_on_image('visitsites.png')
     time.sleep(1)
     visitsiteswait = locate_image_on_screen('visitsiteswait.png')
@@ -60,17 +63,12 @@ def scenario1():
         return
     time.sleep(3)
     click_on_image('gotosite.png')
-    time.sleep(1)
+    time.sleep(0.5)
     click_on_image('open.png')
-    time.sleep(3)
-    if locate_image_on_screen('stay30sec.png'):
-        time.sleep(33)
-    if locate_image_on_screen('stay60sec.png'):
-        time.sleep(63)
-    if locate_image_on_screen('stay90sec.png'):
-        time.sleep(93)
-    if locate_image_on_screen('stay120sec.png'):
-        time.sleep(123)
+    time.sleep(4)
+    while locate_image_on_screen('stay.png'):
+        time.sleep(1)
+
     # pyautogui.hotkey('alt', 'tab')
     # pyautogui.click(270, 1060, button='left')
     if locate_image_on_screen('visitsitestrap.png'):
@@ -89,11 +87,16 @@ def scenario1():
         #click_on_image('skip.png')
     time.sleep(3)
 
+    if locate_image_on_screen('wouldliketoopen.png'):
+        pyautogui.click(1400, 450, button='left')
+
     while(not(locate_image_on_screen('clickbeeisopen.png'))):
         click_on_image('tgtray2.png')
-        time.sleep(1)
+        time.sleep(0.5)
         click_on_image('clickbee.png')
-        time.sleep(1)
+        time.sleep(0.5)
+
+
         click_on_image('back.png')
     if locate_image_on_screen('congratulations.png'):
         pygame.mixer.music.load('beep.wav')
@@ -104,6 +107,8 @@ def scenario1():
 
 def scenario2():
     # Добавьте реализацию второго сценария здесь
+    time.sleep(1)
+    click_on_image('back.png')
     time.sleep(1)
     click_on_image('joinchannels.png')
     time.sleep(2)
@@ -123,6 +128,11 @@ def scenario2():
     if locate_image_on_screen('jointhechannel.png'):
         click_on_image('jointhechannel.png')
     time.sleep(1)
+    if locate_image_on_screen('wouldliketoopen.png'):
+        pyautogui.click(1400, 450, button='left')
+        time.sleep(1)
+        click_on_image('joined.png')
+
     if locate_image_on_screen('isexpired.png'):
         click_on_image('ok.png')
         time.sleep(1)
@@ -149,11 +159,11 @@ def scenario2():
     click_on_image('joined.png')
     time.sleep(1)
     if locate_image_on_screen('congratulations.png'):
-        pygame.mixer.music.load('beep.wav')
+        pygame.mixer.music.load('beepchannels.wav')
         pygame.mixer.music.play()
-
-
-
+        pyautogui.click(1400, 450, button='left')
+        time.sleep(1)
+        scenario2()
 
 def scenario3():
     # Добавьте реализацию третьего сценария здесь
@@ -198,38 +208,14 @@ def scenario3():
         return
     if locate_image_on_screen('ok.png'):
         click_on_image('ok.png')
-        time.sleep(1)
+        time.sleep(0.5)
         click_on_image('3dots.png')
-        #click_on_image('3dots2.png')
-        time.sleep(1)
+        click_on_image('3dots2.png')
+        time.sleep(0.5)
         click_on_image('openbot.png')
         time.sleep(1)
 
     time.sleep(1)
-    location = locate_image_on_screen('botrespond.png')
-    location3 = locate_image_on_screen('botrespond3.png')
-    if location:
-        x, y = location
-        pyautogui.click(x + 50, y, button='right')
-        time.sleep(1)
-        click_on_image('forward.png')
-        time.sleep(1)
-        click_on_image('clickbee2.png')
-        time.sleep(1)
-        click_on_image('started.png')
-        time.sleep(5)
-        pyautogui.press('enter')
-    elif location3:
-        x, y = location3
-        pyautogui.click(x, y + 60, button='right')
-        time.sleep(1)
-        click_on_image('forward.png')
-        time.sleep(1)
-        click_on_image('clickbee2.png')
-        time.sleep(1)
-        click_on_image('started.png')
-        time.sleep(1)
-        pyautogui.press('enter')
 
     if locate_image_on_screen('start.png'):
         click_on_image('start.png')
@@ -239,6 +225,9 @@ def scenario3():
 
     if locate_image_on_screen('youallowed.png'):
         click_on_image('writeamessage.png')
+        time.sleep(0.5)
+        pyperclip.paste()
+        time.sleep(0.5)
         pyautogui.hotkey('ctrl', 'v')
         #pyautogui.typewrite('/start')
         time.sleep(0.5)  # Небольшая пауза перед нажатием Enter
@@ -250,29 +239,120 @@ def scenario3():
     if location:
         x, y = location
         pyautogui.click(x + 50, y, button='right')
-        time.sleep(1)
-        click_on_image('forward.png')
-        time.sleep(1)
+        time.sleep(0.5)
+        forwardlocation = locate_image_on_screen('forward.png')
+        if forwardlocation:
+            click_on_image('forward.png')
+        else:
+            time.sleep(0.5)
+            click_on_image('clickbee.png')
+            time.sleep(0.5)
+            click_on_image('clickbee2.png')
+            time.sleep(0.5)
+            click_on_image('skip.png')
+            return
+
+        time.sleep(0.5)
         click_on_image('clickbee2.png')
-        time.sleep(1)
+        time.sleep(0.5)
         click_on_image('started.png')
-        time.sleep(2)
+        location4 = locate_image_on_screen('started.png')
+        while location4:
+            time.sleep(1)
         pyautogui.press('enter')
+        time.sleep(1)
+        if locate_image_on_screen('congratulations.png'):
+            pygame.mixer.music.load('beepbots.wav')
+            pygame.mixer.music.play()
+
+        return
     elif location3:
         x, y = location3
         pyautogui.click(x, y + 60, button='right')
-        time.sleep(1)
-        click_on_image('forward.png')
-        time.sleep(1)
+        time.sleep(0.5)
+
+        forwardlocation = locate_image_on_screen('forward.png')
+        if forwardlocation:
+            click_on_image('forward.png')
+        else:
+            time.sleep(0.5)
+            click_on_image('clickbee3.png')
+            time.sleep(0.5)
+            click_on_image('clickbee.png')
+            time.sleep(0.5)
+            click_on_image('skip.png')
+            return
+        time.sleep(0.5)
         click_on_image('clickbee2.png')
-        time.sleep(1)
+        time.sleep(0.5)
         click_on_image('started.png')
-        time.sleep(1)
+        location4 = locate_image_on_screen('started.png')
+        while location4:
+            time.sleep(1)
         pyautogui.press('enter')
+        time.sleep(1)
+        if locate_image_on_screen('congratulations.png'):
+            pygame.mixer.music.load('beepbots.wav')
+            pygame.mixer.music.play()
+
+        return
+
+    time.sleep(1)
+
+
+
+
+
+    time.sleep(1)
+
+
+
+
+    time.sleep(3)
+    location = locate_image_on_screen('botrespond.png')
+    location3 = locate_image_on_screen('botrespond3.png')
+    if location:
+        x, y = location
+        pyautogui.click(x + 50, y, button='right')
+        time.sleep(0.5)
+        click_on_image('forward.png')
+        time.sleep(0.5)
+        click_on_image('clickbee2.png')
+        time.sleep(0.5)
+        click_on_image('started.png')
+        location4 = locate_image_on_screen('started.png')
+        while location4:
+            time.sleep(1)
+        pyautogui.press('enter')
+        if locate_image_on_screen('congratulations.png'):
+            pygame.mixer.music.load('beepbots.wav')
+            pygame.mixer.music.play()
+        return
+    elif location3:
+        x, y = location3
+        pyautogui.click(x, y + 60, button='right')
+        time.sleep(0.5)
+        click_on_image('forward.png')
+        time.sleep(0.5)
+        click_on_image('clickbee2.png')
+        time.sleep(0.5)
+        click_on_image('started.png')
+        location4 = locate_image_on_screen('started.png')
+        while location4:
+            time.sleep(1)
+        pyautogui.press('enter')
+        if locate_image_on_screen('congratulations.png'):
+            pygame.mixer.music.load('beepbots.wav')
+            pygame.mixer.music.play()
+        return
 
     if locate_image_on_screen('norespond.png') or locate_image_on_screen('norespond2.png'):
+        pyautogui.click(1600, 300, button='left')
+        time.sleep(0.9)
+        click_on_image('clickbee3.png')
+        time.sleep(0.9)
         click_on_image('clickbee.png')
-        time.sleep(1)
+        time.sleep(0.7)
         click_on_image('skip.png')
         time.sleep(2)
         if locate_image_on_screen('skipohno.png'):
@@ -283,7 +363,7 @@ def scenario3():
                 backwait = locate_image_on_screen('backwait.png')
         return
     else:
-        #pyautogui.click(790, 900, button='right')
+
         time.sleep(1)
 
     #location = locate_image_on_screen('botrespond.png')
@@ -292,17 +372,27 @@ def scenario3():
     if locate_image_on_screen('forward.png'):
         click_on_image('forward.png')
     else:
+        pyautogui.click(1600, 300, button='left')
+        time.sleep(0.5)
         click_on_image('clickbee.png')
-        time.sleep(1)
+        time.sleep(0.7)
+        click_on_image('clickbee3.png')
+        time.sleep(0.7)
         click_on_image('skip.png')
         return
     time.sleep(1)
     click_on_image('clickbee2.png')
-    time.sleep(1)
+    time.sleep(0.5)
     click_on_image('started.png')
-    time.sleep(1)
+    location4 = locate_image_on_screen('started.png')
+    time.sleep(0.5)
+    while location4:
+        time.sleep(1)
     pyautogui.press('enter')
     time.sleep(1)
+    if locate_image_on_screen('congratulations.png'):
+        pygame.mixer.music.load('beepbots.wav')
+        pygame.mixer.music.play()
     if locate_image_on_screen('skipohno.png'):
         click_on_image('back.png')
         backwait = locate_image_on_screen('backwait.png')
@@ -314,12 +404,14 @@ def scenario3():
     time.sleep(1)
 
     if locate_image_on_screen('congratulations.png'):
-        pygame.mixer.music.load('beep.wav')
+        pygame.mixer.music.load('beepbots.wav')
         pygame.mixer.music.play()
         time.sleep(1)
 
 def scenario4():
     # Добавьте реализацию четвертого сценария здесь
+    time.sleep(1)
+    click_on_image('back.png')
     time.sleep(1)
     click_on_image('more.png')
     time.sleep(1)
@@ -329,9 +421,20 @@ def scenario4():
         click_on_image('back.png')
         return
     else:
+        time.sleep(1)
+        if not (locate_image_on_screen('watched.png')):
+            pyautogui.click(700, 500, button='right')
+            time.sleep(0.5)
+            click_on_image('delete.png')
+            time.sleep(0.5)
+            click_on_image('delete2.png')
         time.sleep(11)
         click_on_image('watched.png')
         time.sleep(1)
+        if locate_image_on_screen('congratulations.png'):
+            pygame.mixer.music.load('beepbots.wav')
+            pygame.mixer.music.play()
+            time.sleep(1)
         click_on_image('viewposts.png')
         time.sleep(1)
         click_on_image('back.png')
@@ -351,7 +454,7 @@ def main():
     listener = keyboard.Listener(on_press=on_press)
     listener.start()
     print("Нажмите ПРОБЕЛ, чтобы начать/остановить выполнение сценариев.")
-    pygame.mixer.music.load('beep.wav')
+    pygame.mixer.music.load('beepposts.wav')
 
     while True:
         if active:
