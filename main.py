@@ -13,8 +13,9 @@ import pygame
 active = False
 
 
-
 pygame.mixer.init()
+
+
 text_to_copy = "/start"
 pyperclip.copy(text_to_copy)
 def locate_image_on_screen(template_path):
@@ -76,6 +77,11 @@ def scenario1():
         time.sleep(1)
         if locate_image_on_screen('closeanyway.png'):
             click_on_image('closeanyway.png')
+    if locate_image_on_screen('launch.png'):
+        click_on_image('clickbee3.png')
+
+        time.sleep(1)
+    time.sleep(1)
     if locate_image_on_screen('tgtray.png'):
         click_on_image('tgtray.png')
     else:
@@ -87,17 +93,24 @@ def scenario1():
         #click_on_image('skip.png')
     time.sleep(3)
 
-    if locate_image_on_screen('wouldliketoopen.png'):
+    if locate_image_on_screen('bylaunchingthis.png'):
         pyautogui.click(1400, 450, button='left')
 
+    time.sleep(2)
     while(not(locate_image_on_screen('clickbeeisopen.png'))):
         click_on_image('tgtray2.png')
         time.sleep(0.5)
         click_on_image('clickbee.png')
         time.sleep(0.5)
-
-
         click_on_image('back.png')
+        time.sleep(1)
+
+    if locate_image_on_screen('wouldliketoopen.png'):
+        pyautogui.click(1400, 450, button='left')
+        time.sleep(1)
+
+
+
     if locate_image_on_screen('congratulations.png'):
         pygame.mixer.music.load('beep.wav')
         pygame.mixer.music.play()
@@ -128,7 +141,7 @@ def scenario2():
     if locate_image_on_screen('jointhechannel.png'):
         click_on_image('jointhechannel.png')
     time.sleep(1)
-    if locate_image_on_screen('wouldliketoopen.png'):
+    if locate_image_on_screen('moreaboutthisbot.png'):
         pyautogui.click(1400, 450, button='left')
         time.sleep(1)
         click_on_image('joined.png')
@@ -143,6 +156,8 @@ def scenario2():
         time.sleep(1)
         click_on_image('joined.png')
     if locate_image_on_screen('joinchannel.png'):
+        pyautogui.click(1400, 450, button='left')
+        time.sleep(1)
         click_on_image('joinchannel.png')
     if locate_image_on_screen('alreadyjoined.png'):
         click_on_image('clickbee.png')
@@ -150,6 +165,7 @@ def scenario2():
         click_on_image('joined.png')
     if locate_image_on_screen('joingroup.png'):
         click_on_image('joingroup.png')
+        time.sleep(0.7)
     time.sleep(0.3)
     if locate_image_on_screen('mute.png'):
         click_on_image('mute.png')
@@ -186,10 +202,19 @@ def scenario3():
             backwait = locate_image_on_screen('backwait.png')
         return
 
-    time.sleep(2)
-    click_on_image('startthebot.png')
+    #time.sleep(2)
+    #click_on_image('startthebot.png')
     time.sleep(1)
-    if locate_image_on_screen('joinchannel.png') or locate_image_on_screen('videochat.png'):
+    click_on_image('thistelegrambot.png')
+    time.sleep(1)
+    click_on_image('3dots.png')
+    # click_on_image('3dots2.png')
+    time.sleep(1)
+    click_on_image('openbot.png')
+    time.sleep(1)
+    click_on_image('moreaboutthisbot.png')
+    time.sleep(1)
+    if locate_image_on_screen('joinchannel.png') or locate_image_on_screen('videochat.png') or locate_image_on_screen('retardbot1.png') or locate_image_on_screen('joingroup.png') or locate_image_on_screen('retardbot2.png'):
         click_on_image('clickbee.png')
         time.sleep(1)
         click_on_image('skip.png')
@@ -206,12 +231,12 @@ def scenario3():
                 time.sleep(0.5)
                 backwait = locate_image_on_screen('backwait.png')
         return
-    if locate_image_on_screen('ok.png'):
-        click_on_image('ok.png')
-        time.sleep(0.5)
+    if locate_image_on_screen('launch.png'):
+        click_on_image('launch.png')
+        time.sleep(3)
         click_on_image('3dots.png')
-        click_on_image('3dots2.png')
-        time.sleep(0.5)
+        #click_on_image('3dots2.png')
+        time.sleep(1)
         click_on_image('openbot.png')
         time.sleep(1)
 
@@ -224,15 +249,20 @@ def scenario3():
         time.sleep(5)
 
     if locate_image_on_screen('youallowed.png'):
-        click_on_image('writeamessage.png')
-        time.sleep(0.5)
-        pyperclip.paste()
-        time.sleep(0.5)
-        pyautogui.hotkey('ctrl', 'v')
-        #pyautogui.typewrite('/start')
-        time.sleep(0.5)  # Небольшая пауза перед нажатием Enter
-        pyautogui.press('enter')
-        time.sleep(5)
+        for q in range(3):
+            click_on_image('writeamessage.png')
+
+            for qw in range(4):
+                time.sleep(0.5)
+                pyautogui.hotkey('ctrl', 'v')
+                time.sleep(1)
+                pyperclip.paste()
+
+
+                #pyautogui.typewrite('/start')
+                time.sleep(1)  # Небольшая пауза перед нажатием Enter
+                pyautogui.press('enter')
+            time.sleep(1)
 
     location = locate_image_on_screen('botrespond.png')
     location3 = locate_image_on_screen('botrespond3.png')
@@ -245,9 +275,9 @@ def scenario3():
             click_on_image('forward.png')
         else:
             time.sleep(0.5)
-            click_on_image('clickbee.png')
+            click_on_image('clickbee3.png')
             time.sleep(0.5)
-            click_on_image('clickbee2.png')
+            click_on_image('clickbee.png')
             time.sleep(0.5)
             click_on_image('skip.png')
             return
@@ -259,6 +289,7 @@ def scenario3():
         location4 = locate_image_on_screen('started.png')
         while location4:
             time.sleep(1)
+        time.sleep(1)
         pyautogui.press('enter')
         time.sleep(1)
         if locate_image_on_screen('congratulations.png'):
@@ -289,6 +320,7 @@ def scenario3():
         location4 = locate_image_on_screen('started.png')
         while location4:
             time.sleep(1)
+        time.sleep(1)
         pyautogui.press('enter')
         time.sleep(1)
         if locate_image_on_screen('congratulations.png'):
@@ -432,18 +464,86 @@ def scenario4():
         click_on_image('watched.png')
         time.sleep(1)
         if locate_image_on_screen('congratulations.png'):
-            pygame.mixer.music.load('beepbots.wav')
+            pygame.mixer.music.load('beepposts.wav')
             pygame.mixer.music.play()
             time.sleep(1)
-        click_on_image('viewposts.png')
-        time.sleep(1)
-        click_on_image('back.png')
-        backwait = locate_image_on_screen('backwait.png')
-        while backwait:
-            time.sleep(0.5)
-            backwait = locate_image_on_screen('backwait.png')
-        time.sleep(1)
         scenario4()
+
+
+def scenario5():
+    time.sleep(1)
+    click_on_image('back.png')
+    time.sleep(1)
+    click_on_image('more.png')
+    time.sleep(1)
+    click_on_image('twitterraids.png')
+    time.sleep(1)
+    click_on_image('tweettoearn.png')
+    time.sleep(1)
+    if locate_image_on_screen('ohnotwitter.png'):
+        click_on_image('back.png')
+        return
+    if locate_image_on_screen('openprofile.png'):
+        while True:
+            pygame.mixer.music.load('beeptweettoearn.wav')
+            pygame.mixer.music.play()
+            time.sleep(0.5)
+
+def scenario6():
+    time.sleep(1)
+    click_on_image('back.png')
+    time.sleep(1)
+    click_on_image('more.png')
+    time.sleep(1)
+    click_on_image('twitterraids.png')
+    time.sleep(1)
+    click_on_image('follow.png')
+    time.sleep(1)
+    if locate_image_on_screen('ohnotwitter.png'):
+        click_on_image('back.png')
+        return
+    if locate_image_on_screen('openprofile.png'):
+        while True:
+            pygame.mixer.music.load('beepfollow.wav')
+            pygame.mixer.music.play()
+            time.sleep(0.5)
+def scenario7():
+    time.sleep(1)
+    click_on_image('back.png')
+    time.sleep(1)
+    click_on_image('more.png')
+    time.sleep(1)
+    click_on_image('twitterraids.png')
+    time.sleep(1)
+    click_on_image('retweet.png')
+    time.sleep(1)
+    if locate_image_on_screen('ohnotwitter.png'):
+        click_on_image('back.png')
+        return
+    if locate_image_on_screen('openprofile.png'):
+        while True:
+            pygame.mixer.music.load('beepretweet.wav')
+            pygame.mixer.music.play()
+            time.sleep(0.5)
+def scenario8():
+    time.sleep(1)
+    click_on_image('back.png')
+    time.sleep(1)
+    click_on_image('more.png')
+    time.sleep(1)
+    click_on_image('twitterraids.png')
+    time.sleep(1)
+    click_on_image('comment.png')
+    time.sleep(1)
+    if locate_image_on_screen('ohnotwitter.png'):
+        click_on_image('back.png')
+        return
+    if locate_image_on_screen('openprofile.png'):
+        while True:
+            pygame.mixer.music.load('beepcomment.wav')
+            pygame.mixer.music.play()
+            time.sleep(0.5)
+
 def on_press(key):
     global active
     if key == keyboard.Key.space:
@@ -458,10 +558,14 @@ def main():
 
     while True:
         if active:
-            scenario4()
+            #scenario4()
+            #scenario6()
             scenario1()
+            #scenario5()
             scenario3()
+            #scenario7()
             scenario2()
+            #scenario8()
             time.sleep(1)
         else:
             time.sleep(1)
