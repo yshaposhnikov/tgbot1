@@ -67,8 +67,14 @@ def scenario1():
     time.sleep(0.5)
     click_on_image('open.png')
     time.sleep(4)
-    while locate_image_on_screen('stay.png'):
-        time.sleep(1)
+    start_time = time.time()
+    timeout = 93  # Тайм-аут в секундах
+    while time.time() - start_time < timeout:
+        if locate_image_on_screen('stay.png'):
+            time.sleep(1)
+        else:
+
+            break  # Прерываем цикл, если изображение больше не найдено
 
     # pyautogui.hotkey('alt', 'tab')
     # pyautogui.click(270, 1060, button='left')
