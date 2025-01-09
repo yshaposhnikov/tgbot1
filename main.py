@@ -1,4 +1,5 @@
-#0512
+#0901
+#experimental
 import cv2
 import pyperclip
 import numpy as np
@@ -43,32 +44,38 @@ def click_on_image(image_path):
     if location:
         pyautogui.click(location)
 
-
-def scenario1():
+def scenario0():
     time.sleep(1)
     click_on_image('back.png')
-    time.sleep(1)
+    click_on_image('joinbots.png')
     click_on_image('visitsites.png')
+    click_on_image('joinchannels.png')
+
     time.sleep(1)
-    visitsiteswait = locate_image_on_screen('visitsiteswait.png')
-    while visitsiteswait:
-        time.sleep(0.2)
-        visitsiteswait = locate_image_on_screen('visitsiteswait.png')
-    if locate_image_on_screen('ohnosites.png'):
+
+    if locate_image_on_screen('startthebot.png'):
+        scenario3()
+    elif locate_image_on_screen('gotosite.png'):
+        scenario1()
+    elif locate_image_on_screen('joined.png'):
+        scenario2()
+    else:
         click_on_image('back.png')
-        backwait = locate_image_on_screen('backwait.png')
-        while backwait:
-            time.sleep(0.5)
-            backwait = locate_image_on_screen('backwait.png')
-        print("переход к следующему сценарию.")
-        return
-    time.sleep(3)
+
+def scenario1():
+    time.sleep(0.5)
     click_on_image('gotosite.png')
     time.sleep(0.5)
     click_on_image('open.png')
     time.sleep(4)
-    while locate_image_on_screen('stay.png'):
-        time.sleep(1)
+    start_time = time.time()
+    timeout = 93  # Тайм-аут в секундах
+    while time.time() - start_time < timeout:
+        if locate_image_on_screen('stay.png'):
+            time.sleep(1)
+        else:
+
+            break  # Прерываем цикл, если изображение больше не найдено
 
     # pyautogui.hotkey('alt', 'tab')
     # pyautogui.click(270, 1060, button='left')
@@ -87,7 +94,7 @@ def scenario1():
     else:
         click_on_image('tgtray2.png')
         time.sleep(1)
-        click_on_image('skip.png')
+        click_on_image('skipsites.png')
     #else:
        # pyautogui.click(270, 1060, button='left')
         #click_on_image('skip.png')
@@ -97,7 +104,7 @@ def scenario1():
         pyautogui.click(1400, 450, button='left')
 
     time.sleep(2)
-    while(not(locate_image_on_screen('clickbeeisopen.png'))):
+    while(not(locate_image_on_screen('clickbeeisopen.png')) or not(locate_image_on_screen('back.png'))):
         click_on_image('tgtray2.png')
         time.sleep(0.5)
         click_on_image('clickbee.png')
@@ -119,25 +126,6 @@ def scenario1():
         click_on_image('back.png')
 
 def scenario2():
-    # Добавьте реализацию второго сценария здесь
-    time.sleep(1)
-    click_on_image('back.png')
-    time.sleep(1)
-    click_on_image('joinchannels.png')
-    time.sleep(2)
-    joinchannelswait = locate_image_on_screen('joinchannelswait.png')
-    while joinchannelswait:
-        time.sleep(0.2)
-        joinchannelswait = locate_image_on_screen('joinchannelswait.png')
-    if locate_image_on_screen('ohnochannels.png'):
-        print("переход к следующему сценарию.")
-        click_on_image('back.png')
-        backwait = locate_image_on_screen('backwait.png')
-        while backwait:
-            time.sleep(0.5)
-            backwait = locate_image_on_screen('backwait.png')
-        return
-    time.sleep(1)
     if locate_image_on_screen('jointhechannel.png'):
         click_on_image('jointhechannel.png')
     time.sleep(1)
@@ -182,25 +170,6 @@ def scenario2():
         scenario2()
 
 def scenario3():
-    # Добавьте реализацию третьего сценария здесь
-    time.sleep(1)
-    click_on_image('back.png')
-
-    time.sleep(1)
-    click_on_image('joinbots.png')
-    time.sleep(1)
-    joinbotswait = locate_image_on_screen('joinbotswait.png')
-    while joinbotswait:
-        time.sleep(0.2)
-        joinbotswait = locate_image_on_screen('joinbotswait.png')
-    if locate_image_on_screen('ohnobots.png'):
-
-        click_on_image('back.png')
-        backwait = locate_image_on_screen('backwait.png')
-        while backwait:
-            time.sleep(0.5)
-            backwait = locate_image_on_screen('backwait.png')
-        return
 
     #time.sleep(2)
     #click_on_image('startthebot.png')
@@ -574,19 +543,12 @@ def on_press(key):
 def main():
     listener = keyboard.Listener(on_press=on_press)
     listener.start()
-    print("Нажмите ПРОБЕЛ, чтобы начать/остановить выполнение сценариев.")
+    print("Нажмите на ПРОБЕЛ, чтобы начать/остановить выполнение сценариев.")
     pygame.mixer.music.load('beepposts.wav')
 
     while True:
         if active:
-            #scenario4()
-            #scenario6()
-            scenario1()
-            #scenario5()
-            scenario3()
-            #scenario7()
-            scenario2()
-            #scenario8()
+            scenario0()
             time.sleep(1)
         else:
             time.sleep(1)
